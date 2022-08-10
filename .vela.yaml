@@ -2,7 +2,7 @@ version: "1"
 
 steps:
   - name: install
-    image: golang:v1.19
+    image: golang:1.19
     pull: always
     environment:
       CGO_ENABLED: '0'
@@ -11,7 +11,7 @@ steps:
       - go get ./...
 
   - name: validate
-    image: golang:v1.19
+    image: golang:1.19
     pull: always
     environment:
       CGO_ENABLED: '0'
@@ -27,7 +27,7 @@ steps:
       - go fix ./... && git diff --exit-code; code=$?; git checkout -- .; (exit $code)
 
   - name: build
-    image: golang:v1.19
+    image: golang:1.19
     pull: always
     environment:
       CGO_ENABLED: '0'
