@@ -1,0 +1,36 @@
+version: "1"
+
+steps:
+  - name: install
+    image: golang:1.19
+    pull: always
+    environment:
+      CGO_ENABLED: '0'
+      GOOS: linux
+    commands:
+      - go get ./...
+
+  - name: validate
+    image: golang:1.19
+    pull: always
+    environment:
+      CGO_ENABLED: '0'
+      GOOS: linux
+    commands:
+      # Check that go mod tidy produces a zero diff; clean up any changes afterwards.
+      - go mod tidy && git diff --exit-code; code=$?; git checkout -- .; (exit $code)
+      # Check that go vet ./... produces a zero diff; clean up any changes afterwards.
+      - go vet ./... && git diff --exit-code; code=$?; git checkout -- .; (exit $code)
+      # Check that go fmt ./... produces a zero diff; clean up any changes afterwards.
+      - go fmt ./... && git diff --exit-code; code=$?; git checkout -- .; (exit $code)
+      # Check that go fix ./... produces a zero diff; clean up any changes afterwards.
+      - go fix ./... && git diff --exit-code; code=$?; git checkout -- .; (exit $code)
+
+  - name: build
+    image: golang:1.19
+    pull: always
+    environment:
+      CGO_ENABLED: '0'
+      GOOS: linux
+    commands:
+      - go build ./...
