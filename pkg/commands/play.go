@@ -1,12 +1,9 @@
 package commands
 
 import (
-	"encoding/json"
 	"fmt"
 	"hangle_cli/pkg/hangman"
-	"io/ioutil"
 	"log"
-	"net/http"
 	"strings"
 
 	"github.com/nesbitjd/hangle_server/types"
@@ -21,24 +18,9 @@ var (
 func play() {
 	// Contact server for word
 
-	word_url := "http://127.0.0.1:8080/api/v1/word/last"
-	resp, err := http.Get(word_url)
+	word, err := types.GetLastWord(hangleServerUrl)
 	if err != nil {
 		log.Fatalln(err)
-		return
-	}
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatalln(err)
-		return
-	}
-
-	word := types.Word{}
-
-	err = json.Unmarshal(body, &word)
-	if err != nil {
-		fmt.Println(err)
 		return
 	}
 
@@ -85,12 +67,7 @@ func play() {
 		}
 	}
 
-	record := types.Record{
-		Word:     word,
-		User:     *u,
-		Failures: h.Failures,
-		Guesses:  strings.Join(h.Guesses, ","),
-	}
+	record := types.NewRecord(word, *u, h.Failures, strings.Join(h.Guesses, ","))
 
 	// Upload results to server
 	record.PostResults(hangleServerUrl)
@@ -99,23 +76,9 @@ func play() {
 // checkUser takes a lookupUser to look up, and the base_url for the api.
 // If found, returns a pointer to the user. Otherwise returns empty user
 func checkUser(lookupUser string, base_url string) (*types.User, error) {
-	user_url := "http://127.0.0.1:8080/api/v1/user"
-
-	resp, err := http.Get(user_url)
+	users, err := types.GetAllUsers(hangleServerUrl)
 	if err != nil {
-		return nil, xerrors.Errorf("unable to lookup user: %w", err)
-	}
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, xerrors.Errorf("unable to read user body: %w", err)
-	}
-
-	users := []types.User{}
-
-	err = json.Unmarshal(body, &users)
-	if err != nil {
-		return nil, xerrors.Errorf("unable to unmarshal user body: %w", err)
+		return nil, xerrors.Errorf("unable to get users: %w", err)
 	}
 
 	for _, u := range users {
@@ -128,5 +91,4 @@ func checkUser(lookupUser string, base_url string) (*types.User, error) {
 	logrus.Infof("user %q not found", lookupUser)
 	u := &types.User{}
 	return u, nil
-
 }
