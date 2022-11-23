@@ -3,7 +3,7 @@ module hangle_cli
 go 1.19
 
 require (
-	github.com/nesbitjd/hangle_server v0.1.1-0.20220810024727-8bd5b874462f
+	github.com/nesbitjd/hangle_server v0.1.1-0.20220818030812-3c819813a64e
 	github.com/sirupsen/logrus v1.9.0
 	golang.org/x/xerrors v0.0.0-20220609144429-65e65417b02f
 )
