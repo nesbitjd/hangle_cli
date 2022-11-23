@@ -6,8 +6,6 @@ github.com/jinzhu/inflection v1.0.0/go.mod h1:h+uFLlag+Qp1Va5pdKtLDYj+kHp5pxUVkr
 github.com/jinzhu/now v1.1.4/go.mod h1:d3SSVoowX0Lcu0IBviAWJpolVfI5UJVZZ7cO71lE/z8=
 github.com/jinzhu/now v1.1.5 h1:/o9tlHleP7gOFmsnYNz3RGnqzefHA47wQpKrrdTIwXQ=
 github.com/jinzhu/now v1.1.5/go.mod h1:d3SSVoowX0Lcu0IBviAWJpolVfI5UJVZZ7cO71lE/z8=
-github.com/nesbitjd/hangle_server v0.1.1-0.20220810024727-8bd5b874462f h1:0xD6W790HrCO3BcHl3Grb5PZEZApjdzleVig7Iljeng=
-github.com/nesbitjd/hangle_server v0.1.1-0.20220810024727-8bd5b874462f/go.mod h1:QFCsL/t9B8aeSixUcMGnl4U8dKjj/C2cJxxjAkygtbM=
 github.com/nesbitjd/hangle_server v0.1.1-0.20220818030812-3c819813a64e h1:xr8Cl2cfMzh8mXQ6VTX7tWj6IKKTD1AxHAYAnz7po4U=
 github.com/nesbitjd/hangle_server v0.1.1-0.20220818030812-3c819813a64e/go.mod h1:QFCsL/t9B8aeSixUcMGnl4U8dKjj/C2cJxxjAkygtbM=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
