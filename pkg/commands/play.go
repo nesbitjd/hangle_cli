@@ -3,25 +3,23 @@ package commands
 import (
 	"fmt"
 	"hangle_cli/pkg/hangman"
-	"log"
+	"net/http"
 	"strings"
 
-	"github.com/nesbitjd/hangle_server/types"
-	"github.com/sirupsen/logrus"
-	"golang.org/x/xerrors"
+	"github.com/nesbitjd/hangle_server/pkg/hangle"
 )
 
 var (
 	hangleServerUrl = "http://127.0.0.1:8080"
 )
 
-func play() {
+func play() error {
 	// Contact server for word
+	client := hangle.NewClient(hangle.NewConfig(hangleServerUrl), http.DefaultClient)
 
-	word, err := types.GetLastWord(hangleServerUrl)
+	word, err := client.GetLastWord()
 	if err != nil {
-		log.Fatalln(err)
-		return
+		return fmt.Errorf("unable to get last word, %w", err)
 	}
 
 	h := hangman.Init(word.Word)
@@ -51,44 +49,42 @@ func play() {
 	}(username) {
 	}
 
-	u, err := checkUser(username, hangleServerUrl)
+	u, err := checkUser(username, client)
 	if err != nil {
-		log.Fatalln(err)
-		return
+		return fmt.Errorf("unable to validate user, %w", err)
 	}
 
 	if u.Username == "" {
 		u.Username = username
 
-		u.PostUser(hangleServerUrl)
+		client.PostUser(*u)
 		if err != nil {
-			log.Fatalln(err)
-			return
+			return fmt.Errorf("unable to post user, %w", err)
 		}
 	}
 
-	record := types.NewRecord(word, *u, h.Failures, strings.Join(h.Guesses, ","))
+	record := hangle.NewRecord(word, *u, h.Failures, strings.Join(h.Guesses, ","))
 
 	// Upload results to server
-	record.PostResults(hangleServerUrl)
+	client.PostRecord(record)
+
+	return nil
 }
 
 // checkUser takes a lookupUser to look up, and the base_url for the api.
 // If found, returns a pointer to the user. Otherwise returns empty user
-func checkUser(lookupUser string, base_url string) (*types.User, error) {
-	users, err := types.GetAllUsers(hangleServerUrl)
+func checkUser(lookupUser string, client hangle.Client) (*hangle.User, error) {
+	users, err := client.GetAllUsers()
 	if err != nil {
-		return nil, xerrors.Errorf("unable to get users: %w", err)
+		return nil, fmt.Errorf("unable to get users: %w", err)
 	}
 
 	for _, u := range users {
 		if u.Username == lookupUser {
-			logrus.Infof("user %q found", lookupUser)
 			return &u, nil
 		}
 	}
 
-	logrus.Infof("user %q not found", lookupUser)
-	u := &types.User{}
+	u := &hangle.User{}
 	return u, nil
 }
