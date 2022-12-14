@@ -33,4 +33,26 @@ steps:
       CGO_ENABLED: '0'
       GOOS: linux
     commands:
-      - go build ./...
+      - go build ./... -o release/hangle
+
+  - name: release
+    ruleset:
+      event: tag
+    image: debian:latest
+    pull: always
+    secrets: [ github_token ]
+    environment:
+      OWNER: nesbitjd
+      REPO: hangle_cli
+      TOKEN: github_token
+      TAG_NAME: "${VELA_BUILD_TAG}"
+    commands:
+     - apt-get -y install jq 
+     - ./vela/get_release.sh
+     - ./vela/create_release_asset.sh
+
+secrets:
+  - name: github_token
+    key: vela/nesbitjd/github_token
+    engine: native
+    type: repo
