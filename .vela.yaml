@@ -49,7 +49,7 @@ steps:
       TAG_NAME: "${VELA_BUILD_TAG}"
     commands:
      - apt-get update
-     - apt-get -y install jq 
+     - apt-get -y install jq curl 
      - ./vela/create_release_asset.sh
 
 secrets:
