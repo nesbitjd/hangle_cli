@@ -33,7 +33,7 @@ steps:
       CGO_ENABLED: '0'
       GOOS: linux
     commands:
-      - go build ./... -o release/hangle
+      - go build -o release/hangle ./... 
 
   - name: release
     ruleset:
