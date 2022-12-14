@@ -53,6 +53,6 @@ steps:
 
 secrets:
   - name: github_token
-    key: vela/nesbitjd/github_token
+    key: nesbitjd/hangle_cli/github_token
     engine: native
     type: repo
