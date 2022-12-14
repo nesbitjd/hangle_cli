@@ -50,7 +50,6 @@ steps:
     commands:
      - apt-get update
      - apt-get -y install jq 
-     - ./vela/get_release.sh
      - ./vela/create_release_asset.sh
 
 secrets:
