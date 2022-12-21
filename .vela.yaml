@@ -45,7 +45,6 @@ steps:
     environment:
       OWNER: nesbitjd
       REPO: hangle_cli
-      TOKEN: $github_token
       TAG_NAME: "${VELA_BUILD_TAG}"
     commands:
      - apt-get update
