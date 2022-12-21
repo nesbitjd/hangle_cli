@@ -17,7 +17,7 @@ var (
 
 func play() error {
 	// Set server URL
-	hangleServerUrl := os.Getenv("HANGLE_ADDRESS")
+	hangleServerUrl = os.Getenv("HANGLE_ADDRESS")
 	if hangleServerUrl == "" {
 		return fmt.Errorf("HANGLE_ADDRESS not set")
 	}
