@@ -2,7 +2,7 @@ package commands
 
 import (
 	"fmt"
-	"hangle_cli/pkg/hangman"
+	"github.com/nesbitjd/hangle_cli/pkg/hangman"
 	"net/http"
 	"strings"
 

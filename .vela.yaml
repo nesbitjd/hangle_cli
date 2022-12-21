@@ -33,7 +33,7 @@ steps:
       CGO_ENABLED: '0'
       GOOS: linux
     commands:
-      - go build -o release/hangle_linux_amd64 ./... 
+      - GOOS=linux CGO_ENABLED=0 GOARCH=amd64 go build -o release/hangle_linux_amd64 github.com/nesbitjd/hangle_cli/cmd/hangle_cli
       - ls -la release
 
   - name: release

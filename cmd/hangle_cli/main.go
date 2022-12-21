@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"hangle_cli/pkg/commands"
+	"github.com/nesbitjd/hangle_cli/pkg/commands"
 )
 
 func main() {

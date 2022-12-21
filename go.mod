@@ -1,4 +1,4 @@
-module hangle_cli
+module github.com/nesbitjd/hangle_cli
 
 go 1.19
 
