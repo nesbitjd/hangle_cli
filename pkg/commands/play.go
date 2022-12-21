@@ -2,18 +2,26 @@ package commands
 
 import (
 	"fmt"
-	"github.com/nesbitjd/hangle_cli/pkg/hangman"
 	"net/http"
+	"os"
 	"strings"
+
+	"github.com/nesbitjd/hangle_cli/pkg/hangman"
 
 	"github.com/nesbitjd/hangle_server/pkg/hangle"
 )
 
 var (
-	hangleServerUrl = "http://127.0.0.1:8080"
+	hangleServerUrl = ""
 )
 
 func play() error {
+	// Set server URL
+	hangleServerUrl := os.Getenv("HANGLE_ADDRESS")
+	if hangleServerUrl == "" {
+		return fmt.Errorf("HANGLE_ADDRESS not set")
+	}
+
 	// Contact server for word
 	client := hangle.NewClient(hangle.NewConfig(hangleServerUrl), http.DefaultClient)
 
